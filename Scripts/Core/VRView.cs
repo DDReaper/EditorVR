@@ -341,9 +341,9 @@ namespace UnityEditor.Experimental.EditorVR.Core
 					hmdStatusChange(ready);
 				}
 			}
-		}
+        }
 
-		static bool GetIsUserPresent()
+        static bool GetIsUserPresent()
 		{
 #if UNITY_2017_2_OR_NEWER
 #if ENABLE_OVR_INPUT
@@ -354,8 +354,13 @@ namespace UnityEditor.Experimental.EditorVR.Core
 			if (XRSettings.loadedDeviceName == "OpenVR")
 				return OpenVR.System.GetTrackedDeviceActivityLevel(0) == EDeviceActivityLevel.k_EDeviceActivityLevel_UserInteraction;
 #endif
+#if UNITY_WSA
+			if (XRSettings.loadedDeviceName == "WindowsMR")
+			    return true;
 #endif
-			return true;
+#endif
+            Debug.Log("Could not start EditorVR");
+            return true;
 		}
 
 		void SetGameViewsAutoRepaint(bool enabled)
